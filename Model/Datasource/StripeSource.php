@@ -83,8 +83,8 @@ class StripeSource extends DataSource {
 		if ($response === false) {
 			return false;
 		}
-		$model->setInsertId($response['id']);
-		$model->id = $response['id'];
+		$model->setInsertId($response[$model->primaryKey]);
+		$model->id = $response[$model->primaryKey];
 		return true;
 	}
 
@@ -112,7 +112,7 @@ class StripeSource extends DataSource {
 		if ($response === false) {
 			return false;
 		}
-		$model->id = $response['id'];
+		$model->id = $response[$model->primaryKey];
 		return array(
 			array(
 				$model->alias => $response
@@ -130,11 +130,11 @@ class StripeSource extends DataSource {
  */
 	public function update($model, $fields = array(), $values = array()) {
 		$data = array_combine($fields, $values);
-		if (!isset($data['id'])) {
-			$data['id'] = $model->id;
+		if (!isset($data[$model->primaryKey])) {
+			$data[$model->primaryKey] = $model->id;
 		}
-		$id = $data['id'];
-		unset($data['id']);
+		$id = $data[$model->primaryKey];
+		unset($data[$model->primaryKey]);
 		$request = array(
 			'uri' => array(
 				'path' => $this->getPath($model, $id)
