@@ -270,4 +270,22 @@ class StripeSourceTest extends CakeTestCase {
 		$this->assertEqual($this->Source->request['uri']['path'], '/v1/action/1234');
 	}
 
+/**
+ * testGetPath
+ * 
+ * @return void 
+ */
+    public function testGetPath() {
+        $model = new stdClass();
+        $id = '12';
+
+        $model->path = '/action';
+        $path = $this->Source->getPath($model, $id);
+        $this->assertEqual($path, '/action/' . $id);
+
+        $model->path = '/action/%s/subaction';
+        $path = $this->Source->getPath($model, $id);
+        $this->assertEqual($path, '/action/' . $id . '/subaction');
+    }
+
 }

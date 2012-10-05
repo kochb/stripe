@@ -74,7 +74,7 @@ class StripeSource extends DataSource {
 	public function create($model, $fields = array(), $values = array()) {
 		$request = array(
 			'uri' => array(
-				'path' => $model->path
+				'path' => $this->getPath($model, null)
 			),
 			'method' => 'POST',
 			'body' => $this->reformat($model, array_combine($fields, $values))
@@ -105,7 +105,7 @@ class StripeSource extends DataSource {
 		}
 		$request = array(
 			'uri' => array(
-				'path' => trim($model->path, '/').'/'.$queryData['conditions'][$model->alias.'.'.$model->primaryKey]
+				'path' => $this->getPath($model, $queryData['conditions'][$model->alias.'.'.$model->primaryKey])
 			)
 		);
 		$response = $this->request($request);
@@ -137,7 +137,7 @@ class StripeSource extends DataSource {
 		unset($data['id']);
 		$request = array(
 			'uri' => array(
-				'path' => trim($model->path, '/').'/'.$id
+				'path' => $this->getPath($model, $id)
 			),
 			'method' => 'POST',
 			'body' => $this->reformat($model, $data)
@@ -161,7 +161,7 @@ class StripeSource extends DataSource {
 	public function delete($model, $id = null) {
 		$request = array(
 			'uri' => array(
-				'path' => trim($model->path, '/').'/'.$id[$model->alias.'.'.$model->primaryKey]
+				'path' => $this->getPath($model, $id[$model->alias.'.'.$model->primaryKey])
 			),
 			'method' => 'DELETE'
 		);
@@ -216,6 +216,22 @@ class StripeSource extends DataSource {
 			CakeLog::write('stripe', $e->message);
 		}
 	}
+    
+/**
+ * Resolves the path attribute of the model, since some paths require an id
+ * 
+ * @param Model $model The calling model
+ * @return string The appropriate path
+ */
+    public function getPath($model, $id) {
+        $path = $model->path;
+
+        if (strpos($model->path, '%s') === false) {
+            $path = rtrim($path, '/') . '/%s';
+        }
+
+        return sprintf($path, $id);
+    }
 
 /**
  * Formats data for Stripe based on `$formatFields`
