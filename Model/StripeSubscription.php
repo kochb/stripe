@@ -45,7 +45,19 @@ class StripeSubscription extends StripeAppModel {
 		'trial_start' => array('type' => 'integer'),
 		'quantity' => array('type' => 'integer'),
 		'trial_end' => array('type' => 'integer'),
-		'current_period_start' => array('type' => 'integer')
+		'current_period_start' => array('type' => 'integer'),
+        'plan' => array(),
+        // Card info
+		'number' => array('type' => 'string'),
+		'exp_month' => array('type' => 'string', 'length' => '2'),
+		'exp_year' => array('type' => 'string', 'length' => '4'),
+		'cvc' => array('type' => 'string'),
+		'name' => array('type' => 'string'),
+		'address_line_1' => array('type' => 'string'),
+		'address_line_2' => array('type' => 'string'),
+		'address_zip' => array('type' => 'string'),
+		'address_state' => array('type' => 'string'),
+		'address_country' => array('type' => 'string')
 	);
 
 /**
@@ -61,7 +73,40 @@ class StripeSubscription extends StripeAppModel {
 				'required' => true,
 				'on' =>'create'
 			)
-        )
+        ),
+		'number' => array(
+			'credit_card' => array(
+				'rule' => array('cc', array('visa', 'mc', 'amex', 'disc', 'jcb')),
+                'allowEmpty' => false,
+				'message' => 'Invalid credit card number.'
+			)
+		),
+		'exp_month' => array(
+			'between '=> array(
+				'rule' => array('between', 1, 12),
+                'allowEmpty' => false,
+				'message' => 'Please enter a valid month.'
+			)
+		),
+		'exp_year' => array(
+			'between '=> array(
+				'rule' => array('between', 4, 4),
+                'allowEmpty' => false,
+				'message' => 'Please enter a valid year.'
+			)
+		),
+		'cvc' => array(
+			'number' => array(
+				'rule' => 'numeric',
+                'allowEmpty' => false,
+				'message' => 'Please enter a valid CVC.'
+			)
+		),
+		'address_zip' => array(
+			'rule' => array('postal', null, 'us'),
+            'allowEmpty' => false,
+			'message' => 'Please enter a valid zipcode.'
+		)
     );
 
 /**
@@ -78,4 +123,27 @@ class StripeSubscription extends StripeAppModel {
 			'order' => ''
         )
     );
+
+/**
+ * Formats data for Stripe
+ *
+ * Fields within a key will be moved into that key when sent to Stripe. Everything
+ * else will remain intact.
+ *
+ * @var array
+ */
+	public $formatFields = array(
+		'card' => array(
+			'number',
+			'exp_month',
+			'exp_year',
+			'cvc',
+			'name',
+			'address_line_1',
+			'address_1ine_2',
+			'address_zip',
+			'address_state',
+			'address_country'
+		)
+	);
 }
