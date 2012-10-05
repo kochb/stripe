@@ -165,6 +165,11 @@ class StripeSource extends DataSource {
 			),
 			'method' => 'DELETE'
 		);
+
+        if (! empty($model->_delete_args)) {
+            $request['body'] = $model->_delete_args;
+        }
+
 		$response = $this->request($request);
 		if ($response === false) {
 			return false;

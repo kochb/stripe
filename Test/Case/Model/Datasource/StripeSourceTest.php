@@ -268,6 +268,21 @@ class StripeSourceTest extends CakeTestCase {
 		$this->assertTrue($response);
 		$this->assertEqual($this->Source->request['method'], 'DELETE');
 		$this->assertEqual($this->Source->request['uri']['path'], '/v1/action/1234');
+
+        $this->Model->_delete_args = array('at_period_end' => true);
+		$this->Source->Http->response = array(
+			'status' => array('code' => 200),
+			'body' => '{"deleted" : "true", "id" : "1234"}'
+		);
+		$this->Source->Http->expects($this->at(0))
+			->method('request')
+            ->with($this->arrayHasKey('body'))
+			->will($this->returnValue($this->Source->Http->response['body']));
+		$response = $this->Source->delete($this->Model, array('TestStripeModel.id' => '1234'));
+		$this->assertTrue($response);
+		$this->assertEqual($this->Source->request['method'], 'DELETE');
+		$this->assertEqual($this->Source->request['uri']['path'], '/v1/action/1234');
+        unset($this->Model->_delete_args);
 	}
 
 /**
