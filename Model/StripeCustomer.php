@@ -94,6 +94,22 @@ class StripeCustomer extends StripeAppModel {
 	);
 
 /**
+ * hasOne associations
+ *
+ * @var array
+ */
+    public $hasOne = array(
+		'StripeSubscription' => array(
+			'className' => 'Stripe.StripeSubscription',
+			'foreignKey' => 'customer',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+        )
+    );
+    
+/**
  * Formats data for Stripe
  *
  * Fields within a key will be moved into that key when sent to Stripe. Everything
