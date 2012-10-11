@@ -100,24 +100,37 @@ class StripeSource extends DataSource {
 		if ($queryData['fields'] == 'COUNT') {
 			return array(array(array('count' => 1)));
 		}
-		if (empty($queryData['conditions'][$model->alias.'.'.$model->primaryKey])) {
+
+		if (empty($queryData['conditions'][$model->alias.'.'.$model->primaryKey]) && ! empty($model->id)) {
 			$queryData['conditions'][$model->alias.'.'.$model->primaryKey] = $model->id;
 		}
+        $multiple = empty($queryData['conditions'][$model->alias.'.'.$model->primaryKey]);
+
 		$request = array(
 			'uri' => array(
-				'path' => $this->getPath($model, $queryData['conditions'][$model->alias.'.'.$model->primaryKey])
+				'path' => $this->getPath($model, $multiple ? null : $queryData['conditions'][$model->alias.'.'.$model->primaryKey])
 			)
 		);
+        unset($queryData['conditions'][$model->alias.'.'.$model->primaryKey]);
+        if (!empty($queryData['conditions'])) {
+            $request['uri']['query'] = $queryData['conditions'];
+        }
 		$response = $this->request($request);
+
 		if ($response === false) {
 			return false;
 		}
-		$model->id = $response[$model->primaryKey];
-		return array(
-			array(
-				$model->alias => $response
-			)
-		);
+        
+        if (! $multiple) {
+            $response = array('data' => array($response));
+        }
+
+        $result = array();
+        foreach ($response['data'] as $record) {
+            $result[] = array($model->alias => $record);
+        }
+
+		return $result;
 	}
 
 /**

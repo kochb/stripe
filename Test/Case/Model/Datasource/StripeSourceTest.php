@@ -217,7 +217,6 @@ class StripeSourceTest extends CakeTestCase {
 				)
 			)
 		));
-		$this->assertEqual($this->Model->id, 1234);
 		$this->assertEqual($this->Source->request['method'], 'GET');
 		$this->assertEqual($this->Source->request['uri']['path'], '/v1/action/1234');
 	}
