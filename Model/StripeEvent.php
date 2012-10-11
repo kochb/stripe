@@ -38,7 +38,7 @@ class StripeEvent extends StripeAppModel {
 		'number' => array('type' => 'string'),
 		'livemode' => array('type' => 'boolean'),
 		'created' => array('type' => 'string'),
-		'data' => array('type' => 'string'),
+		'data' => array(),
 		'pending_webhooks' => array('type' => 'integer'),
 		'type' => array('type' => 'string'),
 	);
