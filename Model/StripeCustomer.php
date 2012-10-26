@@ -108,7 +108,46 @@ class StripeCustomer extends StripeAppModel {
 			'order' => ''
         )
     );
-    
+
+/**
+ * hasMany associations
+ *
+ * @var array
+ */
+    public $hasMany = array(
+		'StripeInvoice' => array(
+			'className' => 'Stripe.StripeInvoice',
+			'foreignKey' => 'customer',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+        ),
+		'StripeInvoiceItem' => array(
+			'className' => 'Stripe.StripeInvoiceItem',
+			'foreignKey' => 'customer',
+			'dependent' => false,
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+        )
+    );
+
+/**
+ * belongsTo associations
+ *
+ * @var array
+ */
+	public $belongsTo = array(
+		'StripePlan' => array(
+			'className' => 'Stripe.StripePlan',
+			'foreignKey' => 'plan',
+			'conditions' => '',
+			'fields' => '',
+			'order' => ''
+		)
+    );
+
 /**
  * Formats data for Stripe
  *
