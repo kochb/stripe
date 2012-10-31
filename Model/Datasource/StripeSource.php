@@ -71,7 +71,7 @@ class StripeSource extends DataSource {
  * @param array $values Array of field values
  * @return boolean Success
  */
-	public function create($model, $fields = array(), $values = array()) {
+	public function create(Model $model, $fields = array(), $values = array()) {
 		$request = array(
 			'uri' => array(
 				'path' => $this->getPath($model, null)
@@ -95,7 +95,7 @@ class StripeSource extends DataSource {
  * @param array $queryData Query data (conditions, limit, etc)
  * @return mixed `false` on failure, data on success
  */
-	public function read($model, $queryData = array()) {
+	public function read(Model $model, $queryData = array()) {
 		// If calculate() wants to know if the record exists. Say yes.
 		if ($queryData['fields'] == 'COUNT') {
 			return array(array(array('count' => 1)));
@@ -141,7 +141,7 @@ class StripeSource extends DataSource {
  * @param array $values Array of field values
  * @return mixed `false` on failure, data on success
  */
-	public function update($model, $fields = array(), $values = array()) {
+	public function update(Model $model, $fields = array(), $values = array()) {
 		$data = array_combine($fields, $values);
 		if (!isset($data[$model->primaryKey])) {
 			$data[$model->primaryKey] = $model->id;
@@ -171,7 +171,7 @@ class StripeSource extends DataSource {
  * @param integer $id Id to delete
  * @return boolean Success
  */
-	public function delete($model, $id = null) {
+	public function delete(Model $model, $id = null) {
 		$request = array(
 			'uri' => array(
 				'path' => $this->getPath($model, $id[$model->alias.'.'.$model->primaryKey])
@@ -289,7 +289,7 @@ class StripeSource extends DataSource {
  *
  * @return null
  */
-	public function listSources() {
+	public function listSources($data = null) {
 		return null;
 	}
 
@@ -299,7 +299,7 @@ class StripeSource extends DataSource {
  * @param Model $Model
  * @return array
  */
-	public function describe(Model $Model) {
+	public function describe($model) {
 		if (isset($Model->_schema)) {
 			return $Model->_schema;
 		} else {
