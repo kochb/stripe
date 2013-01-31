@@ -98,9 +98,7 @@ class StripeSource extends DataSource {
  * @param array $queryData Query data (conditions, limit, etc)
  * @return mixed `false` on failure, data on success
  */
-	public function read(Model $model, $queryData = null, $recursive = null) {
-        if (empty($queryData)) $queryData = array();
-
+	public function read(Model $model, $queryData = array(), $recursive = null) {
 		// If calculate() wants to know if the record exists. Say yes.
 		if ($queryData['fields'] == 'COUNT') {
 			return array(array(array('count' => 1)));
