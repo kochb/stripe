@@ -141,7 +141,7 @@ class StripeSource extends DataSource {
  * @param array $values Array of field values
  * @return mixed `false` on failure, data on success
  */
-	public function update(Model $model, $fields = array(), $values = array()) {
+	public function update(Model $model, $fields = array(), $values = array(), $conditions = null) {
 		$data = array_combine($fields, $values);
 		if (!isset($data[$model->primaryKey])) {
 			$data[$model->primaryKey] = $model->id;
