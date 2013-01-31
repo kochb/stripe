@@ -71,7 +71,10 @@ class StripeSource extends DataSource {
  * @param array $values Array of field values
  * @return boolean Success
  */
-	public function create(Model $model, $fields = array(), $values = array()) {
+	public function create(Model $model, $fields = null, $values = null) {
+        if (empty($fields)) $fields = array();
+        if (empty($values)) $values = array();
+
 		$request = array(
 			'uri' => array(
 				'path' => $this->getPath($model, null)
@@ -95,7 +98,9 @@ class StripeSource extends DataSource {
  * @param array $queryData Query data (conditions, limit, etc)
  * @return mixed `false` on failure, data on success
  */
-	public function read(Model $model, $queryData = array(), $recursive = null) {
+	public function read(Model $model, $queryData = null, $recursive = null) {
+        if (empty($queryData)) $queryData = array();
+
 		// If calculate() wants to know if the record exists. Say yes.
 		if ($queryData['fields'] == 'COUNT') {
 			return array(array(array('count' => 1)));
@@ -141,7 +146,10 @@ class StripeSource extends DataSource {
  * @param array $values Array of field values
  * @return mixed `false` on failure, data on success
  */
-	public function update(Model $model, $fields = array(), $values = array(), $conditions = null) {
+	public function update(Model $model, $fields = null, $values = null, $conditions = null) {
+        if (empty($fields)) $fields = array();
+        if (empty($values)) $values = array();
+
 		$data = array_combine($fields, $values);
 		if (!isset($data[$model->primaryKey])) {
 			$data[$model->primaryKey] = $model->id;
