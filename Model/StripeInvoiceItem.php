@@ -34,7 +34,7 @@ class StripeInvoiceItem extends StripeAppModel {
  * @var array
  */
 	public $_schema = array(
-		'id' => array('type' => 'string'),
+		'id' => array('type' => 'string', 'length' => 17),
 		'object' => array('type' => 'string'),
 		'livemode' => array('type' => 'boolean'),
         'amount' => array('type' => 'integer'),
