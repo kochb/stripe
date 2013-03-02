@@ -34,10 +34,10 @@ class StripeCustomer extends StripeAppModel {
  * @var array
  */
 	public $_schema = array(
-		'id' => array('type' => 'integer', 'length' => '12'),
+		'id' => array('type' => 'integer', 'length' => 12),
 		'number' => array('type' => 'string'),
-		'exp_month' => array('type' => 'string', 'length' => '2'),
-		'exp_year' => array('type' => 'string', 'length' => '4'),
+		'exp_month' => array('type' => 'string', 'length' => 2),
+		'exp_year' => array('type' => 'string', 'length' => 4),
 		'cvc' => array('type' => 'string'),
 		'name' => array('type' => 'string'),
 		'address_line_1' => array('type' => 'string'),

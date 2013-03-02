@@ -37,10 +37,10 @@ class StripePlan extends StripeAppModel {
  * @var array
  */
 	public $_schema = array(
-		'id' => array('type' => 'string', 'length' => '45'),
+		'id' => array('type' => 'string', 'length' => 45),
 		'amount' => array('type' => 'integer'),
-		'currency' => array('type' => 'string', 'length' => '3'),
-		'interval' => array('type' => 'string', 'length' => '5'),
+		'currency' => array('type' => 'string', 'length' => 3),
+		'interval' => array('type' => 'string', 'length' => 5),
 		'name' => array('type' => 'string'),
 		'trial_period_days' => array('type' => 'integer')
 	);
