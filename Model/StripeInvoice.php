@@ -34,8 +34,8 @@ class StripeInvoice extends StripeAppModel {
  * @var array
  */
 	public $_schema = array(
-		'id' => array('type' => 'string'),
-		'object' => array('type' => 'string'),
+		'id' => array('type' => 'string', 'length' => 17),
+		'object' => array('type' => 'string', 'length' => 7),
 		'livemode' => array('type' => 'boolean'),
         'closed' => array('type' => 'boolean'),
         'starting_balance' => array('type' => 'integer'),
@@ -44,17 +44,17 @@ class StripeInvoice extends StripeAppModel {
         'lines' => array(),
         'total' => array('type' => 'integer'),
         'attempt_count' => array('type' => 'integer'),
-        'charge' => array('type' => 'string'),
+        'charge' => array('type' => 'string', 'length' => 17),
         'subtotal' => array('type' => 'integer'),
         'attempted' => array('type' => 'boolean'),
         'next_payment_attempt' => array('type' => 'integer'),
         'date' => array('type' => 'integer'),
         'period_start' => array('type' => 'integer'),
         'paid' => array('type' => 'boolean'),
-        'currency' => array('type' => 'string'),
+        'currency' => array('type' => 'string', 'length' => 3),
         'discount' => array(),
         'amount_due' => array('type' => 'integer'),
-        'customer' => array('type' => 'string')
+        'customer' => array('type' => 'string', 'length' => 18)
 	);
 
 /**
